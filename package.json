@@ -1,0 +1,16 @@
+{
+  "name": "api-with-expressjs",
+  "version": "1.0.0",
+  "description": "API for test project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vovakopanko"
+  },
+  "author": "Vova Kopanko",
+  "license": "ISC"
+}
