@@ -1,28 +1,25 @@
 import express, { Express } from "express";
 import { Server } from "http";
+import { inject, injectable } from "inversify";
 import { ExeptionFilter } from "./errors/exeption.filter";
-import { LoggerService } from "./logger/logger.service";
+import { ILogger } from "./logger/loger.iterface";
+import { TYPES } from "./types";
 import { UsersController } from "./users/users.controller";
+import "reflect-metadata";
 
+@injectable()
 export class App {
   app: Express;
-  server: Server;
+  server: Server | undefined;
   port: number;
-  logger: LoggerService;
-  userController: UsersController;
-  exeptionFilter: ExeptionFilter;
 
   constructor(
-    logger: LoggerService,
-    userController: UsersController,
-    exeptionFilter: ExeptionFilter
+    @inject(TYPES.ILoger) private logger: ILogger,
+    @inject(TYPES.UsersController) private userController: UsersController,
+    @inject(TYPES.ExeptionFilter) private exeptionFilter: ExeptionFilter
   ) {
     this.app = express();
     this.port = 8000;
-    this.logger = logger;
-    this.userController = userController;
-    this.server = this.app.listen(this.port);
-    this.exeptionFilter = exeptionFilter;
   }
 
   useRoutes() {
@@ -41,9 +38,10 @@ export class App {
   }
 
   public async init() {
+    this.server = this.app.listen(this.port);
     this.useRoutes();
     this.getHomePage();
     this.useExeptionFilters();
-    this.logger.info(`Server started on http://localhost:${this.port}`);
+    this.logger.log(`Server started on http://localhost:${this.port}`);
   }
 }
