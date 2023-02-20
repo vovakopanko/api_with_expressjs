@@ -22,6 +22,7 @@ export class UsersController extends BaseController implements IUsersContainer {
 	}
 
 	register(req: Request, res: Response, next: NextFunction): void {
+		console.log('dfsfsdfsd');
 		next(new HTTPError(401, 'User is not logged in', 'loggin'));
 		// this.ok(res, "register");
 	}
