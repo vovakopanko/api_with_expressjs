@@ -16,7 +16,7 @@ export class LoggerService {
     this.logger.info(...args);
   }
 
-  error(...args: undefined[]) {
+  error(...args: string[]) {
     this.logger.error(...args);
   }
 
