@@ -4,8 +4,9 @@ import { inject, injectable } from 'inversify';
 import { ExeptionFilter } from './errors/exeption.filter';
 import { ILogger } from './logger/loger.iterface';
 import { TYPES } from './types';
-import { UsersController } from './users/users.controller';
+import { UsersController } from './users/controller/users.controller';
 import 'reflect-metadata';
+import { json } from 'body-parser';
 
 @injectable()
 export class App {
@@ -26,6 +27,10 @@ export class App {
 		this.app.use('/users', this.userController.router);
 	}
 
+	useMiddleWare(): void {
+		this.app.use(json());
+	}
+
 	getHomePage(): void {
 		this.app.get('/', (req, res) => {
 			res.send('<h1>HOME PAGE</h1>');
@@ -38,6 +43,7 @@ export class App {
 	}
 
 	public async init(): Promise<void> {
+		this.useMiddleWare();
 		this.server = this.app.listen(this.port);
 		this.useRoutes();
 		this.getHomePage();
